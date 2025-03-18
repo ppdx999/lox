@@ -14,6 +14,7 @@ public class GenerateAst {
         map.put("Stmt", new HashMap<>());
 
         var exprMap = map.get("Expr");
+        exprMap.put("Assign", "Token name, Expr value");
         exprMap.put("Binary", "Expr left, Token operator, Expr right");
         exprMap.put("Grouping", "Expr expression");
         exprMap.put("Literal", "Object value");
