@@ -2,10 +2,30 @@ package tool;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GenerateAst {
+    private static final Map<String, Map<String, String>> map;
+
+    static {
+        map = new HashMap<>();
+        map.put("Expr", new HashMap<>());
+        map.put("Stmt", new HashMap<>());
+
+        var exprMap = map.get("Expr");
+        exprMap.put("Binary", "Expr left, Token operator, Expr right");
+        exprMap.put("Grouping", "Expr expression");
+        exprMap.put("Literal", "Object value");
+        exprMap.put("Unary", "Token operator, Expr right");
+        exprMap.put("Variable", "Token name");
+
+        var stmtMap = map.get("Stmt");
+        stmtMap.put("Expression", "Expr expression");
+        stmtMap.put("Print", "Expr expression");
+        stmtMap.put("Var", "Token name, Expr initializer");
+    }
+
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
             System.err.println("Usage: generate_ast <output directory>");
@@ -13,15 +33,12 @@ public class GenerateAst {
         }
         String outputDir = args[0];
 
-        // call-define-ast
-        defineAst(outputDir, "Expr",
-                Arrays.asList("Binary   : Expr left, Token operator, Expr right",
-                        "Grouping : Expr expression", "Literal  : Object value",
-                        "Unary    : Token operator, Expr right"));
-
+        for (var entry : map.entrySet()) {
+            defineAst(outputDir, entry.getKey(), entry.getValue());
+        }
     }
 
-    private static void defineAst(String outputDir, String baseName, List<String> types)
+    private static void defineAst(String outputDir, String baseName, Map<String, String> map)
             throws IOException {
         String path = outputDir + "/" + baseName + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
@@ -32,11 +49,11 @@ public class GenerateAst {
         writer.println();
         writer.println("abstract class " + baseName + " {");
 
-        defineVisitor(writer, baseName, types);
+        defineVisitor(writer, baseName, map);
 
-        for (String type : types) {
-            String className = type.split(":")[0].trim();
-            String fields = type.split(":")[1].trim();
+        for (var entry : map.entrySet()) {
+            String className = entry.getKey();
+            String fields = entry.getValue();
             defineType(writer, baseName, className, fields);
         }
 
@@ -48,12 +65,13 @@ public class GenerateAst {
         writer.close();
     }
 
-    private static void defineVisitor(PrintWriter writer, String baseName, List<String> types) {
+    private static void defineVisitor(PrintWriter writer, String baseName,
+            Map<String, String> map) {
         writer.println("  interface Visitor<R> {");
 
-        for (String type : types) {
-            String typeName = type.split(":")[0].trim();
-            writer.println("    R visit" + typeName + baseName + "(" + typeName + " "
+        for (var entry : map.entrySet()) {
+            String className = entry.getKey();
+            writer.println("    R visit" + className + baseName + "(" + className + " "
                     + baseName.toLowerCase() + ");");
         }
 
