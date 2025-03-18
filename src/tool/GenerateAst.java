@@ -18,6 +18,7 @@ public class GenerateAst {
         exprMap.put("Binary", "Expr left, Token operator, Expr right");
         exprMap.put("Grouping", "Expr expression");
         exprMap.put("Literal", "Object value");
+        exprMap.put("Logical", "Expr left, Token operator, Expr right");
         exprMap.put("Unary", "Token operator, Expr right");
         exprMap.put("Variable", "Token name");
 
