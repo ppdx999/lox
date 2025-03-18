@@ -28,6 +28,7 @@ public class GenerateAst {
         stmtMap.put("If", "Expr condition, Stmt thenBranch, Stmt elseBranch");
         stmtMap.put("Print", "Expr expression");
         stmtMap.put("Var", "Token name, Expr initializer");
+        stmtMap.put("While", "Expr condition, Stmt body");
     }
 
     public static void main(String[] args) throws IOException {
