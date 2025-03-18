@@ -22,6 +22,7 @@ public class GenerateAst {
         exprMap.put("Variable", "Token name");
 
         var stmtMap = map.get("Stmt");
+        stmtMap.put("Block", "List<Stmt> statements");
         stmtMap.put("Expression", "Expr expression");
         stmtMap.put("Print", "Expr expression");
         stmtMap.put("Var", "Token name, Expr initializer");
