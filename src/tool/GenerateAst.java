@@ -16,6 +16,7 @@ public class GenerateAst {
         var exprMap = map.get("Expr");
         exprMap.put("Assign", "Token name, Expr value");
         exprMap.put("Binary", "Expr left, Token operator, Expr right");
+        exprMap.put("Call", "Expr callee, Token paren, List<Expr> arguments");
         exprMap.put("Grouping", "Expr expression");
         exprMap.put("Literal", "Object value");
         exprMap.put("Logical", "Expr left, Token operator, Expr right");
@@ -25,6 +26,7 @@ public class GenerateAst {
         var stmtMap = map.get("Stmt");
         stmtMap.put("Block", "List<Stmt> statements");
         stmtMap.put("Expression", "Expr expression");
+        stmtMap.put("Function", "Token name, List<Token> params, List<Stmt> body");
         stmtMap.put("If", "Expr condition, Stmt thenBranch, Stmt elseBranch");
         stmtMap.put("Print", "Expr expression");
         stmtMap.put("Var", "Token name, Expr initializer");
