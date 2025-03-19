@@ -29,6 +29,7 @@ public class GenerateAst {
         stmtMap.put("Function", "Token name, List<Token> params, List<Stmt> body");
         stmtMap.put("If", "Expr condition, Stmt thenBranch, Stmt elseBranch");
         stmtMap.put("Print", "Expr expression");
+        stmtMap.put("Return", "Token keyword, Expr value");
         stmtMap.put("Var", "Token name, Expr initializer");
         stmtMap.put("While", "Expr condition, Stmt body");
     }
