@@ -121,7 +121,7 @@ static void consume(TokenType type, const char* message) {
 
 static void number() {
     double value = strtod(parser.previous.start, NULL);
-    emitConstant(value);
+    emitConstant(NUMBER_VAL(value));
 }
 
 static ParseRule* getRule(TokenType type);
